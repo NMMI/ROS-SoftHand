@@ -1,0 +1,66 @@
+{{http://www.qbrobotics.com/wp-content/themes/qbrobotics/img/qbhand.svg|qbhand|width=755}}
+
+<<Version()>>
+{{{{#!wiki version kinetic
+
+= qbhand =
+''ROS Software Maintainer: [[http://www.qbrobotics.com|qbrobotics®]]''
+<<TOC(4)>>
+
+[[http://www.qbrobotics.com/products/qbhand/|qbhand]] is an '''adaptable yet robust robotic hand''' gripper for collaborative robotic arms and for humanoid robots. It is in scale 1:1 with the average human hand and it is similarily composed by 19 completely desensorized phalanges and a flat palm.
+
+The specific system of tendons connected to just a single motor provides the mechanical adaptability of the grasp to the shape and softness of any object without damaging it, i.e. exploiting the intrinsic capability of soft robots to continuously deform in a huge variety of possible configurations through interaction with external items.
+
+In addition, the single actuator fixed directly on the back of the hand barely affects the total encumbrance and weight (only 480 grams) of the device.
+
+== Installation ==
+<<TutorialChain(qb_hand/Tutorials/qbhand ROS Packages Installation)>>
+
+== Usage ==
+=== Simulated qbhand ===
+{{{#!wiki caution
+The simulation package is still a work in progress. The ''qbhand'' will be ready to work with Gazebo as soon as possible!
+}}}
+{{{#!wiki comment
+<<TutorialChain(qb_hand_gazebo/Tutorials/...)>>
+}}}
+
+=== Physical qbhand ===
+The ''qbhand'' can be used with several control modes explained in the following tutorials:
+
+<<TutorialChain(qb_hand_control/Tutorials/qbhand GUI Control)>>
+
+== Demo Applications ==
+TODO: add video examples (GUI, waypoints)
+
+== ROS Packages Overview ==
+||<style="text-align:right">[[qb_device]]: ||[[qb_device_bringup]] | [[qb_device_control]] | [[qb_device_description]] | [[qb_device_driver]] | [[qb_device_hardware_interface]] | [[qb_device_msgs]] | [[qb_device_srvs]]||
+||<style="text-align:right">[[qb_hand]]: ||[[qb_hand_control]] | [[qb_hand_description]] | [[qb_hand_hardware_interface]]||
+
+== Support, Bugs and Contribution ==
+Since we are not only focused on this project it might happen that you encounter some trouble once in a while. Maybe we have just forget to think about your specific use case or we have not seen a terrible bug inside our code. In such a case, we are really sorry for the inconvenience and we will provide any support you need.
+
+To help you in the best way we can, we are asking you to do the most suitable of the following steps:
+
+ 1. It is the first time you are holding a ''qbhand'', or the first time you are using ROS, or even both: it is always a pleasure for us to solve your problems, but please consider first to read again the instructions above and the ROS tutorials. If you have ROS related questions the right place to ask is [[http://answers.ros.org/questions/|ROS Answers]].
+ 1. You are a beginner user stuck on something you completely don't know how to solve or you are experiencing unexpected behaviour: feel free to contact us at <<MailTo(support+ros@qbrobotics.com)>>, you will receive the specific support you need as fast as we can handle it.
+ 1. You are quite an expert user, everything has always worked fine, but now you have founded something strange and you don't know how to fix it: we will be glad if you open an Issue in the package of interest on [[https://bitbucket.org/account/user/qbrobotics/projects/ROS|our Bitbucket]].
+ 1. You are definitely an expert user, you have found a bug in our code and you have also correct it: it will be amazing if you open a Pull Request in the package of interest on [[https://bitbucket.org/account/user/qbrobotics/projects/ROS|our Bitbucket]]; we will merge it as soon as possible.
+ 1. You are comfortable with ''qbrobotics®'' products but you are wondering whether is possible to add some additional software features: feel free to open respectively an Issue or a Pull Request in the package of interest on [[https://bitbucket.org/account/user/qbrobotics/projects/ROS|our Bitbucket]], according to whether it is just an idea or you have already provided your solution.
+
+In any case, thank you for using ''[[http://www.qbrobotics.com|qbrobotics®]]'' solutions.
+
+== Purchase ==
+If you have just found out our company and you are interested in our products, come to [[http://www.qbrobotics.com|visit us]] and feel free to ask for a quote.
+
+== Roadmap ==
+Our journey through the ROS ecosystem has just started and we have already planned new midterm features to be implemented in the following months:
+
+ * Support for the most used ROS/Ubuntu distros
+ * CI an tests
+ * Gazebo ROS simulation
+ * Improved controller to better replicate the real grasp
+
+}}}}
+
+## RobotOverview

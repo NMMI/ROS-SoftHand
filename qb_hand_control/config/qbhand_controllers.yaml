@@ -1,0 +1,18 @@
+qbhand_joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 100
+
+# control the qbhand motor and its relative synergy
+qbhand_synergy_trajectory_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - qbhand_synergy_joint
+  constraints:
+    goal_time: 0.1
+    stopped_velocity_tolerance: 0.05
+    qbhand_synergy_joint:
+      trajectory: 0.05
+      goal: 0.01
+  state_publish_rate: 100
+  action_monitor_rate: 120
+  stop_trajectory_duration: 0

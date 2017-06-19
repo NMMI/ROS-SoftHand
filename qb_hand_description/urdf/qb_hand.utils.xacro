@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find qb_hand_description)/urdf/qb_hand.materials.xacro"/>
+
+  <xacro:macro name="build_geometry" params="mesh_name mesh_scale:=^|.001">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://qb_hand_description/meshes/${mesh_name}.stl" scale="${mesh_scale} ${mesh_scale} ${mesh_scale}"/>
+    </geometry>
+  </xacro:macro>
+
+  <xacro:property name="negligible_mass" value="0.01"/>
+  <xacro:property name="negligible_inertia">
+    <origin xyz="0 0 0"/>
+    <mass value="${negligible_mass}"/>
+    <inertia ixx="${negligible_mass * 1e-6}" ixy="0.0" ixz="0.0" iyy="${negligible_mass * 1e-6}" iyz="0.0" izz="${negligible_mass * 1e-6}"/>
+  </xacro:property>
+
+  <xacro:macro name="build_phalanx_joint" params="finger:=^ phalanx:=^ virtual_suffix:=^|'' *origin namespace:=^ parent:=^ child_suffix:=^|'' axis:=^ *dynamics *limits use_mimic:=^ mimic_joint:=^ mimic_reduction:=^">
+    <joint name="${namespace}_${finger}_${phalanx}_${virtual_suffix}joint" type="revolute">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}_${virtual_suffix}link"/>
+      <child link="${namespace}_${finger}_${phalanx}_${child_suffix}link"/>
+      <axis xyz="${axis}"/>
+      <xacro:insert_block name="dynamics"/>
+      <xacro:insert_block name="limits"/>
+      <xacro:if value="${use_mimic}">
+        <mimic joint="${mimic_joint}_joint" multiplier="${mimic_reduction}"/>
+      </xacro:if>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="build_link" params="name type mesh_prefix:=^|'' material **inertia">
+    <link name="${name}_link">
+      <inertial>
+        <xacro:insert_block name="inertia"/>
+      </inertial>
+      <xacro:if value="${use_meshes}">
+        <visual>
+          <xacro:build_geometry mesh_name="${mesh_prefix}${type}"/>
+          <material name="qb_hand/${material}"/>
+        </visual>
+        <collision>
+          <xacro:build_geometry mesh_name="${mesh_prefix}${type}_collision"/>
+        </collision>
+      </xacro:if>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="build_virtual_link" params="name **inertia">
+    <link name="${name}_virtual_link">
+      <inertial>
+        <xacro:insert_block name="inertia"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="build_phalanx_pure_rolling_mechanism" params="finger:=^ phalanx:=^ namespace:=^ axis:=^ *origin_virtual *dynamics *limits">
+    <!-- This virtual link replicates the mechanical joint mechanism: it is aimed to separate the two parallel
+         revolution joints of consecutive phalanges and implement a pure rolling motion among them.
+         Therefore it has a negligible inertia and no visual or collision properties. -->
+    <xacro:build_virtual_link name="${namespace}_${finger}_${phalanx}">
+      <inertial_group>
+        <xacro:insert_block name="negligible_inertia"/>
+      </inertial_group>
+    </xacro:build_virtual_link>
+
+    <xacro:build_phalanx_joint parent="${namespace}_${finger}_${phalanx}" virtual_suffix="virtual_" child_suffix="" use_mimic="true" mimic_joint="${namespace}_${finger}_${phalanx}" mimic_reduction="1.0">
+      <xacro:insert_block name="origin_virtual"/>
+      <xacro:insert_block name="dynamics"/>
+      <xacro:insert_block name="limits"/>
+    </xacro:build_phalanx_joint>
+  </xacro:macro>
+
+  <xacro:macro name="build_phalanx" params="finger:=^ phalanx:=^ namespace:=^ parent:=^ axis *origin *dynamics *limits *origin_virtual type:='' mesh_prefix:=^|'' *inertia use_mimic:=^ mimic_joint:=^ mimic_reduction:=^|1.0">
+    <!-- the following macros automatically retrieve params from these ones (i.e. all the macros use the same names) -->
+    <xacro:if value="${phalanx != 'knuckle'}">
+      <xacro:property name="child_suffix" value="virtual_"/>
+    </xacro:if>
+    <xacro:build_phalanx_joint>
+      <xacro:insert_block name="origin"/>
+      <xacro:insert_block name="dynamics"/>
+      <xacro:insert_block name="limits"/>
+    </xacro:build_phalanx_joint>
+    <xacro:if value="${phalanx != 'knuckle'}">
+      <xacro:build_phalanx_pure_rolling_mechanism>
+        <xacro:insert_block name="origin_virtual"/>
+        <xacro:insert_block name="dynamics"/>
+        <xacro:insert_block name="limits"/>
+      </xacro:build_phalanx_pure_rolling_mechanism>
+    </xacro:if>
+    <xacro:build_link name="${namespace}_${finger}_${phalanx}" type="${phalanx}" material="${phalanx}">
+      <xacro:insert_block name="inertia"/>
+    </xacro:build_link>
+  </xacro:macro>
+
+  <xacro:macro name="build_phalanx_from_yaml" params="yaml_file:=^ hand_configuration:=^ finger:=^ phalanx namespace:=^ parent">
+    <xacro:build_phalanx axis="${yaml_file[hand_configuration][finger][phalanx]['axis']}"
+                         mesh_prefix="${yaml_file[hand_configuration][finger][phalanx]['mesh_prefix']}"
+                         mimic_reduction="${yaml_file[hand_configuration][finger][phalanx]['mimic_reduction']}">
+      <origin xyz="${yaml_file[hand_configuration][finger][phalanx]['position']}"
+              rpy="${yaml_file[hand_configuration][finger][phalanx]['orientation']}"/>
+      <dynamics damping="${yaml_file[hand_configuration][finger][phalanx]['dynamics']['damping']}"
+                friction="${yaml_file[hand_configuration][finger][phalanx]['dynamics']['friction']}"/>
+      <limit lower="${yaml_file[hand_configuration][finger][phalanx]['limits']['lower']}"
+             upper="${yaml_file[hand_configuration][finger][phalanx]['limits']['upper']}"
+             effort="${yaml_file[hand_configuration][finger][phalanx]['limits']['effort']}"
+             velocity="${yaml_file[hand_configuration][finger][phalanx]['limits']['velocity']}"/>
+      <xacro:if value="${phalanx != 'knuckle'}">
+        <origin xyz="${yaml_file[hand_configuration][finger][phalanx]['virtual_mechanism']['position']}"
+                rpy="${yaml_file[hand_configuration][finger][phalanx]['virtual_mechanism']['orientation']}"/>
+      </xacro:if>
+      <xacro:if value="${phalanx == 'knuckle'}">
+        <!-- not used but there must always be five blocks in 'xacro:build_phalanx' -->
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </xacro:if>
+      <inertial_group>
+        <mass value="${yaml_file[hand_configuration][finger][phalanx]['inertial']['mass']}"/>
+        <origin xyz="${yaml_file[hand_configuration][finger][phalanx]['inertial']['origin']}"/>
+        <inertia ixx="${yaml_file[hand_configuration][finger][phalanx]['inertial']['inertia']['ixx']}"
+                 ixy="${yaml_file[hand_configuration][finger][phalanx]['inertial']['inertia']['ixy']}"
+                 ixz="${yaml_file[hand_configuration][finger][phalanx]['inertial']['inertia']['ixz']}"
+                 iyy="${yaml_file[hand_configuration][finger][phalanx]['inertial']['inertia']['iyy']}"
+                 iyz="${yaml_file[hand_configuration][finger][phalanx]['inertial']['inertia']['iyz']}"
+                 izz="${yaml_file[hand_configuration][finger][phalanx]['inertial']['inertia']['izz']}"/>
+      </inertial_group>
+    </xacro:build_phalanx>
+  </xacro:macro>
+
+  <xacro:macro name="build_two_phalanx_finger_from_yaml" params="yaml_file:=^ hand_configuration:=^ finger namespace:=^ parent">
+    <xacro:build_phalanx_from_yaml phalanx="knuckle" parent="${parent}"/>
+    <xacro:build_phalanx_from_yaml phalanx="proximal" parent="${namespace}_${finger}_knuckle"/>
+    <xacro:build_phalanx_from_yaml phalanx="distal" parent="${namespace}_${finger}_proximal"/>
+  </xacro:macro>
+
+  <xacro:macro name="build_three_phalanx_finger_from_yaml" params="yaml_file:=^ hand_configuration:=^ finger namespace:=^ parent">
+    <xacro:build_phalanx_from_yaml phalanx="knuckle" parent="${parent}"/>
+    <xacro:build_phalanx_from_yaml phalanx="proximal" parent="${namespace}_${finger}_knuckle"/>
+    <xacro:build_phalanx_from_yaml phalanx="middle" parent="${namespace}_${finger}_proximal"/>
+    <xacro:build_phalanx_from_yaml phalanx="distal" parent="${namespace}_${finger}_middle"/>
+  </xacro:macro>
+
+  <xacro:macro name="build_fixed_structure" params="name:=^ type:=^ *origin parent:=^ mesh_prefix:=^|'' *inertia">
+    <joint name="${name}_fixed_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}_link"/>
+      <child link="${name}_link"/>
+    </joint>
+
+    <xacro:build_link name="${name}" type="${type}" material="${type}">
+      <xacro:insert_block name="inertia"/>
+    </xacro:build_link>
+  </xacro:macro>
+
+  <xacro:macro name="build_fixed_structure_from_yaml" params="yaml_file:=^ hand_configuration:=^ name namespace:=^ type parent">
+    <xacro:build_displaced_fixed_structure_from_yaml name="${name}" type="${type}" parent="${parent}">
+      <origin xyz="${yaml_file[hand_configuration][type]['position']}"
+              rpy="${yaml_file[hand_configuration][type]['orientation']}"/>
+    </xacro:build_displaced_fixed_structure_from_yaml>
+  </xacro:macro>
+
+  <xacro:macro name="build_displaced_fixed_structure_from_yaml" params="yaml_file:=^ hand_configuration:=^ name namespace:=^ type parent *origin">
+    <xacro:build_fixed_structure name="${namespace}_${name}" mesh_prefix="${yaml_file[hand_configuration][type]['mesh_prefix']}">
+      <xacro:insert_block name="origin"/>
+      <inertial_group>
+        <mass value="${yaml_file[hand_configuration][type]['inertial']['mass']}"/>
+        <origin xyz="${yaml_file[hand_configuration][type]['inertial']['origin']}"/>
+        <inertia ixx="${yaml_file[hand_configuration][type]['inertial']['inertia']['ixx']}"
+                 ixy="${yaml_file[hand_configuration][type]['inertial']['inertia']['ixy']}"
+                 ixz="${yaml_file[hand_configuration][type]['inertial']['inertia']['ixz']}"
+                 iyy="${yaml_file[hand_configuration][type]['inertial']['inertia']['iyy']}"
+                 iyz="${yaml_file[hand_configuration][type]['inertial']['inertia']['iyz']}"
+                 izz="${yaml_file[hand_configuration][type]['inertial']['inertia']['izz']}"/>
+      </inertial_group>
+    </xacro:build_fixed_structure>
+  </xacro:macro>
+
+  <xacro:macro name="build_synergy_mechanism" params="namespace:=^ parent:=^ axis *dynamics *limits">
+    <joint name="${namespace}_synergy_joint" type="revolute">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="${parent}_link"/>
+      <child link="${namespace}_tendon_virtual_link"/>
+      <axis xyz="${axis}"/>
+      <xacro:insert_block name="dynamics"/>
+      <xacro:insert_block name="limits"/>
+    </joint>
+
+    <xacro:build_virtual_link name="${namespace}_tendon">
+      <inertial_group>
+        <xacro:insert_block name="negligible_inertia"/>
+      </inertial_group>
+    </xacro:build_virtual_link>
+  </xacro:macro>
+
+  <xacro:macro name="build_synergy_mechanism_from_yaml" params="namespace:=^ parent">
+    <xacro:build_synergy_mechanism axis="${yaml_file[hand_configuration]['synergy']['axis']}">
+      <dynamics damping="${yaml_file[hand_configuration]['synergy']['dynamics']['damping']}"
+                friction="${yaml_file[hand_configuration]['synergy']['dynamics']['friction']}"/>
+      <limit lower="${yaml_file[hand_configuration]['synergy']['limits']['lower']}"
+             upper="${yaml_file[hand_configuration]['synergy']['limits']['upper']}"
+             effort="${yaml_file[hand_configuration]['synergy']['limits']['effort']}"
+             velocity="${yaml_file[hand_configuration]['synergy']['limits']['velocity']}"/>
+    </xacro:build_synergy_mechanism>
+  </xacro:macro>
+
+  <xacro:macro name="build_hand_from_yaml" params="yaml_file hand_configuration namespace parent *origin">
+    <xacro:build_displaced_fixed_structure_from_yaml name="base" type="base" parent="${parent}">
+      <xacro:insert_block name="origin"/>
+    </xacro:build_displaced_fixed_structure_from_yaml>
+    <xacro:build_fixed_structure_from_yaml name="palm" type="palm" parent="${namespace}_base"/>
+    <xacro:build_synergy_mechanism_from_yaml parent="${namespace}_palm"/>
+    <xacro:build_two_phalanx_finger_from_yaml finger="thumb" parent="${namespace}_palm"/>
+    <xacro:build_three_phalanx_finger_from_yaml finger="index" parent="${namespace}_palm"/>
+    <xacro:build_three_phalanx_finger_from_yaml finger="middle" parent="${namespace}_palm"/>
+    <xacro:build_three_phalanx_finger_from_yaml finger="ring" parent="${namespace}_palm"/>
+    <xacro:build_three_phalanx_finger_from_yaml finger="little" parent="${namespace}_palm"/>
+  </xacro:macro>
+
+  <xacro:macro name="build_hand_from_default_yaml" params="hand_configuration:='qb_hand_right' config_filename:='default' namespace parent *origin">
+    <xacro:property name="use_meshes" value="false"/>
+
+    <xacro:property name="use_mimic" value="true"/>
+    <xacro:property name="mimic_joint" value="${namespace}_synergy"/>
+
+    <xacro:property name="yaml_filename" value="$(find qb_hand_description)/config/${config_filename}.yaml"/>
+    <xacro:property name="yaml_file" value="${load_yaml(yaml_filename)}"/>
+
+    <xacro:build_hand_from_yaml yaml_file="${yaml_file}" hand_configuration="${hand_configuration}" namespace="${namespace}" parent="${parent}">
+      <xacro:insert_block name="origin"/>
+    </xacro:build_hand_from_yaml>
+  </xacro:macro>
+
+</robot>

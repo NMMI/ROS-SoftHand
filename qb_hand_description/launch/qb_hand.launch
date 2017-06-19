@@ -1,0 +1,8 @@
+<launch>
+  <include file="$(find qb_device_bringup)/launch/description_bringup.launch">
+    <arg name="device_urdf" value="qb_hand"/>
+    <arg name="device_namespace" value="qbhand"/>
+    <arg name="device_description" value="qb_hand"/>
+    <arg name="use_rviz" value="true"/>
+  </include>
+</launch>

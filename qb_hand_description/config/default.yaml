@@ -1,0 +1,194 @@
+# This YAML file must contains the configuration of each mesh to properly build the URDF automagically.
+# The aim of this additional file is to encapsulate all the physical properties in a single place without hiding them
+# in a long URDF structure.
+#
+# Note: there is no need to modify this file unless you hack the qbhand physical mechanism. Nonetheless it is
+#       recommended to create a distinct YAML file for each version of the qbhand (this helps with versioning and
+#       leaves the default configuration as is).
+#
+# Brief description:
+# * The `default` group holds the anchors for the common default settings, i.e. avoid annoying repetitions.
+# * The `qb_hand_<left/right>` group contains the current properties to build the URDF correctly.
+
+default:
+  parameters:
+    axis_abduction: &axis_abduction "0 0 1"
+    axis_flexion: &axis_flexion "0 -1 0"
+    dynamics: &dynamics
+      damping: 0.0
+      friction: 0.0
+    effort_limit: &effort 100
+    velocity_limit: &velocity 100
+    virtual_mechanism: &virtual_mechanism
+      position: "0.013 0 0"
+      orientation: "0 0 0"
+    mesh_prefix: &no_mesh_prefix ""
+    single_synergy: &single_synergy
+      axis: "0 0 1"  # it is not important though
+      dynamics: *dynamics
+      limits:
+        lower: 0.0
+        upper: 1.0
+        effort: *effort
+        velocity: *velocity
+
+  finger:
+    knuckle: &knuckle
+      mesh_prefix: *no_mesh_prefix
+      # 'position' and 'orientation' should be specified each time
+      position: "0 0 0"
+      orientation: "0 0 0"
+      axis: *axis_abduction
+      mimic_reduction: 0.0
+      dynamics: *dynamics
+      limits:
+        lower: -0.524
+        upper: 0.524
+        effort: *effort
+        velocity: *velocity
+      inertial:
+        mass: 0.09
+        origin: "0.001 0.0 0.0"
+        inertia:
+          ixx: 0.004
+          ixy: 0.0
+          ixz: 0.0
+          iyy: 0.008
+          iyz: 0.0
+          izz: 0.006
+
+    proximal: &proximal
+      mesh_prefix: *no_mesh_prefix
+      position: "0.009 0 0"
+      orientation: "0 0 0"
+      axis: *axis_flexion
+      mimic_reduction: 0.785
+      virtual_mechanism: *virtual_mechanism
+      dynamics: *dynamics
+      limits:
+        lower: 0.0
+        upper: 0.785
+        effort: *effort
+        velocity: *velocity
+      inertial:
+        mass: 0.05
+        origin: "0.005 0.0 0.0"
+        inertia:
+          ixx: 0.002
+          ixy: 0.0
+          ixz: 0.0
+          iyy: 0.003
+          iyz: 0.0
+          izz: 0.003
+
+    middle: &middle
+      << : *proximal
+
+    distal: &distal
+      << : *proximal
+      inertial:
+        mass: 0.1
+        origin: "0.010 0.0 0.001"
+        inertia:
+          ixx: 0.004
+          ixy: 0.0
+          ixz: 0.0
+          iyy: 0.008
+          iyz: 0.0
+          izz: 0.008
+
+
+qb_hand_right:
+  base:
+    mesh_prefix: "right_"
+    #FIXME actually position and orientation of base link is not selected by xacro
+    position: "0 0 0.004"
+    orientation: "0 0 0"
+    inertial:
+      mass: 0.1  #FIXME
+      origin: "0 0 0"  #FIXME
+      inertia:  #FIXME
+        ixx: 1
+        ixy: 0
+        ixz: 0
+        iyy: 1
+        iyz: 0
+        izz: 1
+
+  palm:
+    mesh_prefix: "right_"
+    position: "0.002 0.007 0.054"
+    orientation: "0 0 0"
+    inertial:
+      mass: 0.228
+      origin: "-0.05 -0.007 0.028"
+      inertia:
+        ixx: 1.630
+        ixy: 0.023
+        ixz: 0.023
+        iyy: 0.946
+        iyz: 0.046
+        izz: 1.106
+
+  synergy: *single_synergy
+
+  # all fingers have the same base structure and only few things change among them (e.g. the pose of the knuckle)
+  thumb:
+    knuckle:
+      << : *knuckle
+      mesh_prefix: "right_thumb_"
+      position: "0.006 0.030 0.055"
+      orientation: "0.0 -0.384 1.571"
+      axis: "0 0 -1"
+      mimic_reduction: 2.042
+      limits:
+        lower: 0.0
+        upper: 1.571
+        effort: *effort
+        velocity: *velocity
+    proximal:
+      << : *proximal
+      position: "0.023 -0.003 0.0"
+      orientation: "0.427 0.0 0.0"
+      mimic_reduction: 1.021
+    distal: *distal
+
+  index:
+    knuckle:
+      << : *knuckle
+      position: "-0.003 0.020 0.094"
+      orientation: "1.571 -1.484 1.571"
+      mimic_reduction: -0.2
+    proximal: *proximal
+    middle: *middle
+    distal: *distal
+
+  middle:
+    knuckle:
+      << : *knuckle
+      position: "-0.003 0.0 0.101"
+      orientation: "3.142 -1.571 0.0"
+      mimic_reduction: 0.0
+    proximal: *proximal
+    middle: *middle
+    distal: *distal
+
+  ring:
+    knuckle:
+      << : *knuckle
+      position: "-0.003 -0.020 0.094"
+      orientation: "-1.571 -1.518 -1.571"
+      mimic_reduction: 0.2
+    proximal: *proximal
+    middle: *middle
+    distal: *distal
+
+  little:
+    knuckle:
+      << : *knuckle
+      position: "-0.003 -0.039 0.084"
+      orientation: "-1.571 -1.484 -1.571"
+      mimic_reduction: 0.4
+    proximal: *proximal
+    middle: *middle
+    distal: *distal

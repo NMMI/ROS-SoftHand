@@ -1,0 +1,23 @@
+<package format="2">
+  <name>qb_hand_hardware_interface</name>
+  <version>1.0.0</version>
+  <description>
+    This package contains the hardware interface for qbrobotics® qbhand device.
+  </description>
+  <author>qbrobotics®</author>
+  <maintainer email="alessandro.tondo@qbrobotics.com">Alessandro Tondo</maintainer>
+  <license>BSD 3-Clause</license>
+
+  <url type="bugtracker">https://bitbucket.org/qbrobotics/qbhand-ros/issues</url>
+  <url type="repository">https://bitbucket.org/qbrobotics/qbhand-ros</url>
+  <url type="website">http://wiki.ros.org/qb_hand_hardware_interface</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>transmission_interface</depend>
+  <depend>qb_device_hardware_interface</depend>
+
+  <!--TODO: <test_depend>gtest</test_depend>-->
+  <doc_depend>doxygen</doc_depend>
+</package>

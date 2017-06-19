@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot name="qb_hand" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find qb_hand_description)/urdf/qb_hand.utils.xacro"/>
+	<xacro:arg name="namespace" default="qbhand"/>
+
+	<link name="root_link"/>
+	<xacro:build_hand_from_default_yaml hand_configuration="qb_hand_right" namespace="$(arg namespace)" parent="root">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+	</xacro:build_hand_from_default_yaml>
+
+</robot>
