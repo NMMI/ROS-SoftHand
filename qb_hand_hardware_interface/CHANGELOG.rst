@@ -2,6 +2,10 @@
 Changelog for package qb_hand_hardware_interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.0.3 (2017-06-22)
+------------------
+* fix dependencies
+
 1.0.2 (2017-06-21)
 ------------------
 * fix cmake settings to solve isolated builds

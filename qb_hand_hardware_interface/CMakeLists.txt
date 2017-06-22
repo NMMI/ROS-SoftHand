@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
-project(qb_hand_hardware_interface VERSION 1.0.2 LANGUAGES CXX)
+project(qb_hand_hardware_interface VERSION 1.0.3 LANGUAGES CXX)
 
 # Dependency Settings
 find_package(catkin REQUIRED
   COMPONENTS
     roscpp
+    control_toolbox
     transmission_interface
     qb_device_hardware_interface
 )
@@ -20,6 +21,7 @@ catkin_package(
     ${PROJECT_NAME}
   CATKIN_DEPENDS
     roscpp
+    control_toolbox
     transmission_interface
     qb_device_hardware_interface
 )

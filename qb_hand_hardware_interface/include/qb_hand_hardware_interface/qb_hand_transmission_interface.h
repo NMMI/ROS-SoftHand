@@ -30,7 +30,7 @@
 
 #include <transmission_interface/transmission.h>
 #include <control_toolbox/filters.h>
-//TODO: switch to a more complete filter library
+//TODO: switch to a more complete filter library (e.g. ros/filters)
 
 namespace qb_hand_transmission_interface {
 /**
