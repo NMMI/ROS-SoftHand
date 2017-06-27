@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
-project(qb_hand_control VERSION 1.0.4 LANGUAGES CXX)
+project(qb_hand_control VERSION 1.0.5 LANGUAGES CXX)
 
 # Dependency Settings
 find_package(catkin REQUIRED
@@ -51,19 +51,30 @@ add_dependencies(${PROJECT_NAME}
 )
 
 # C++ Settings
-set_property(
-  TARGET
-    qb_hand_default
-    ${PROJECT_NAME}
-  PROPERTY CXX_STANDARD 14
-)
+if (CMAKE_VERSION VERSION_LESS "3.1")
+  target_compile_options(qb_hand_default
+    PUBLIC
+      "-std=c++14"
+  )
+  target_compile_options(${PROJECT_NAME}
+    PUBLIC
+      "-std=c++14"
+  )
+else ()
+  set_property(
+    TARGET
+      qb_hand_default
+      ${PROJECT_NAME}
+    PROPERTY CXX_STANDARD 14
+  )
 
-set_property(
-  TARGET
-    qb_hand_default
-    ${PROJECT_NAME}
-  PROPERTY CXX_STANDARD_REQUIRED ON
-)
+  set_property(
+    TARGET
+      qb_hand_default
+      ${PROJECT_NAME}
+    PROPERTY CXX_STANDARD_REQUIRED ON
+  )
+endif ()
 
 # Installation
 install(

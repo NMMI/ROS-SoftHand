@@ -1,6 +1,6 @@
 <package format="2">
   <name>qb_hand</name>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
   <description>
     This package contains the ROS interface for qbrobotics® qbhand device.
   </description>
