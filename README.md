@@ -33,8 +33,8 @@ Install the _qbhand_ packages for a ROS user is straightforward. Nonetheless the
 1. Clone both the `qb_device` and `qb_hand` packages to your Catkin Workspace, e.g. `~/catkin_ws`:
    ```
    cd `~/catkin_ws/src`
-   git clone --recursive git@bitbucket.org:qbrobotics/qbdevice-ros.git
-   git clone git@bitbucket.org:qbrobotics/qbhand-ros.git
+   git clone https://bitbucket.org/qbrobotics/qbdevice-ros.git
+   git clone https://bitbucket.org/qbrobotics/qbhand-ros.git
    ```
 
 1. Compile the packages using `catkin`:
@@ -42,6 +42,7 @@ Install the _qbhand_ packages for a ROS user is straightforward. Nonetheless the
    cd `~/catkin_ws`
    catkin_make
    ```
+   **Note:** depending on your ROS installation, you may need some extra packages to properly compile the code. Please, be sure that you have already installed at least `ros-kinetic-ros-controllers`, `ros-kinetic-transmission-interface`, `ros-kinetic-joint-limits-interface`, and their dependencies (_e.g. use `sudo apt install <ros-pkg>`_).
 
 1. If you were not familiar with ROS you should be happy now: everything is done! Nonetheless, if you encounter some troubles during the compilation, feel free to ask for support on [our Bitbucket](https://bitbucket.org/account/user/qbrobotics/projects/ROS).
 

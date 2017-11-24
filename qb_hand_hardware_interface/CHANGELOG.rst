@@ -2,6 +2,9 @@
 Changelog for package qb_hand_hardware_interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.0.6 (2017-11-24)
+------------------
+
 1.0.5 (2017-06-27)
 ------------------
 * Fix C++11 support for cmake version less than 3.1
