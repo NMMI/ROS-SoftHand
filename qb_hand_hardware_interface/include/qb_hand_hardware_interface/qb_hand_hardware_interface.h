@@ -28,6 +28,9 @@
 #ifndef QB_HAND_HARDWARE_INTERFACE_H
 #define QB_HAND_HARDWARE_INTERFACE_H
 
+// ROS libraries
+#include <pluginlib/class_list_macros.hpp>
+
 // internal libraries
 #include <qb_device_hardware_interface/qb_device_hardware_interface.h>
 #include <qb_hand_hardware_interface/qb_hand_transmission_interface.h>
@@ -44,7 +47,7 @@ class qbHandHW : public qb_device_hardware_interface::qbDeviceHW {
   /**
    * Initialize the \p qb_device_hardware_interface::qbDeviceHW with the specific transmission interface and actuator
    * and joint names.
-   * \sa qb_device_hardware_interface::qbDeviceHW(), qb_hand_transmission_interface::qbHandVirtualTransmission
+   * \sa qb_hand_transmission_interface::qbHandVirtualTransmission
    */
   qbHandHW();
 
@@ -59,18 +62,24 @@ class qbHandHW : public qb_device_hardware_interface::qbDeviceHW {
   std::vector<std::string> getJoints();
 
   /**
-   * Call the base \p qb_device_hardware_interface::read().
+   * Call the base method and nothing more.
+   * \param root_nh A NodeHandle in the root of the caller namespace.
+   * \param robot_hw_nh A NodeHandle in the namespace from which the RobotHW should read its configuration.
+   * \returns \p true on success.
+   */
+  bool init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh);
+
+  /**
+   * Call the base method and nothing more.
    * \param time The current time.
    * \param period The time passed since the last call to this method, i.e. the control period.
-   * \sa qb_device_hardware_interface::read()
    */
   void read(const ros::Time& time, const ros::Duration& period);
 
   /**
-   * Call the base \p qb_device_hardware_interface::write().
+   * Call the base method and nothing more.
    * \param time The current time.
    * \param period The time passed since the last call to this method, i.e. the control period.
-   * \sa qb_device_hardware_interface::write()
    */
   void write(const ros::Time& time, const ros::Duration& period);
 };

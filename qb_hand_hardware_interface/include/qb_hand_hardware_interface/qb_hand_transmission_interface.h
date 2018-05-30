@@ -30,7 +30,6 @@
 
 #include <transmission_interface/transmission.h>
 #include <control_toolbox/filters.h>
-//TODO: switch to a more complete filter library (e.g. ros/filters)
 
 namespace qb_hand_transmission_interface {
 /**
@@ -41,21 +40,13 @@ namespace qb_hand_transmission_interface {
 class qbHandVirtualTransmission : public transmission_interface::Transmission {
  public:
   /**
-   * Build the \em qbhand transmission with default velocity and effort scale factors (respectively \p 0.2 and \p 0.001),
-   * and retrieve the position scale factor from the parameter \p "~closure_ticks_limit" expressed in \em ticks in the
-   * Parameter Server following the formula \f$f_{pos} = \frac{1}{closure\_limits}\f$ (if not found it uses the default
-   * hand closure limit, which is \p 19000 \em ticks).
+   * Build the \em qbhand transmission with default velocity and effort scale factors (respectively \p 0.2 and \p 0.001).
+   * The position scale factor is based on the "motor position limit" (expressed in \em ticks) which is the maximum
+   * closure value, and follows the formula \f$f_{pos} = \frac{1}{closure\_limit}\f$. The default \p closure_limit is
+   * set to 19000 ticks, but it can be modified during the execution with the proper method.
    */
   qbHandVirtualTransmission()
-      : qbHandVirtualTransmission(1./ros::param::param<int>("~closure_ticks_limit", 19000)) {}
-
-  /**
-   * Build the \em qbhand transmission with the given position scale factor and the default velocity and effort scale
-   * factors (respectively \p 0.2 and \p 0.001).
-   * \param position_factor Motor position \em ticks to closure percent value [\p 0, \p 1] scale factor.
-   */
-  qbHandVirtualTransmission(const double &position_factor)
-      : qbHandVirtualTransmission(position_factor, 0.2, 0.001) {}
+      : qbHandVirtualTransmission(1./19000, 0.2, 0.001) {}
 
   /**
    * Build the \em qbhand transmission with the given scale factors.
@@ -186,6 +177,12 @@ class qbHandVirtualTransmission : public transmission_interface::Transmission {
    * \return The number of joints of this transmission, i.e always 1 for the \em qbhand.
    */
   inline std::size_t numJoints() const { return 1; }
+
+  /**
+   * Set the position scale factor.
+   * \param position_factor Motor position \em ticks to closure percent value [\p 0, \p 1] scale factor.
+   */
+  inline void setPositionFactor(const int &motor_position_limit) { position_factor_ = 1./motor_position_limit; }
 
  private:
   double position_factor_;

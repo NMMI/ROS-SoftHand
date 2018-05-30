@@ -2,6 +2,15 @@
 Changelog for package qb_hand_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.0 (2018-05-30)
+------------------
+* Update README
+* Refactor launch files
+* Remove control node
+* Add blocking setCommands method support
+* Refactor launch files
+* Fix destructor calls on ROS shutdown
+
 1.0.6 (2017-11-24)
 ------------------
 

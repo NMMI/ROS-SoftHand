@@ -1,6 +1,6 @@
 <package format="2">
   <name>qb_hand_control</name>
-  <version>1.0.6</version>
+  <version>2.0.0</version>
   <description>
     This package contains the ROS control node for qbrobotics® qbhand device.
   </description>
@@ -14,10 +14,7 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <depend>roscpp</depend>
-  <depend>qb_device_control</depend>
-  <depend>qb_hand_hardware_interface</depend>
-
-  <!--TODO: <test_depend>gtest</test_depend>-->
-  <doc_depend>doxygen</doc_depend>
+  <export>
+    <architecture_independent/>
+  </export>
 </package>

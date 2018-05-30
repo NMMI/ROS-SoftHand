@@ -2,6 +2,12 @@
 Changelog for package qb_hand_hardware_interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.0 (2018-05-30)
+------------------
+* Refactor transmission initialization
+* Refactor initialization
+* Prepare for CombinedRobotHW compatibility
+
 1.0.6 (2017-11-24)
 ------------------
 

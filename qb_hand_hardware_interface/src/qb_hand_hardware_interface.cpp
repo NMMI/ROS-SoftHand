@@ -31,7 +31,7 @@ using namespace qb_hand_hardware_interface;
 
 qbHandHW::qbHandHW()
     : qbDeviceHW(std::make_shared<qb_hand_transmission_interface::qbHandVirtualTransmission>(), {"synergy_joint"}, {"synergy_joint"}) {
-  //TODO: check that closure_ticks_limit has the same value of device_.position_limits (device_ cannot be retrieved before calling the base constructor which needs the transmission already setup...)
+
 }
 
 qbHandHW::~qbHandHW() {
@@ -40,6 +40,16 @@ qbHandHW::~qbHandHW() {
 
 std::vector<std::string> qbHandHW::getJoints() {
   return joints_.names;
+}
+
+bool qbHandHW::init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh) {
+  if (!qb_device_hardware_interface::qbDeviceHW::init(root_nh, robot_hw_nh)) {
+    return false;
+  }
+
+  // if the device interface initialization has succeed the device info have been retrieved
+  std::static_pointer_cast<qb_hand_transmission_interface::qbHandVirtualTransmission>(transmission_.getTransmission())->setPositionFactor(device_.position_limits.at(1));
+  return true;
 }
 
 void qbHandHW::read(const ros::Time& time, const ros::Duration& period) {
@@ -51,3 +61,5 @@ void qbHandHW::write(const ros::Time& time, const ros::Duration& period) {
   // send actuator command to the hardware (saturate and convert to proper measurement units)
   qb_device_hardware_interface::qbDeviceHW::write(time, period);
 }
+
+PLUGINLIB_EXPORT_CLASS(qb_hand_hardware_interface::qbHandHW, hardware_interface::RobotHW)

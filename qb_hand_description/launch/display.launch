@@ -1,0 +1,20 @@
+<launch>
+  <!-- device info -->
+  <arg name="device_id" default="1" doc="The ID of the device [1, 128]."/>
+  <arg name="device_type" value="qbhand" doc="The type of the device [qbhand, qbmove, ...]."/>
+  <arg name="device_name" default="$(arg device_type)$(arg device_id)" doc="The unique device namespace used in the yaml controller configurations (also in the urdf if not already specified there)."/>
+  <!-- description settings -->
+  <arg name="robot_name" default="$(arg device_type)" doc="The unique robot namespace."/>
+  <arg name="robot_package" value="qb_hand" doc="The base package name prefix for the robot configurations [urdf, rviz, ...]."/>
+  <arg name="source_list" default="[$(arg device_name)/joint_states]" doc="The joint_states source list for the joint_state_publisher."/>
+  <arg name="use_rviz" default="true" doc="Choose whether or not to use rviz."/>
+
+  <!-- bring up robot description, joint and robot state publishers (also can start rviz) -->
+  <include file="$(find qb_device_bringup)/launch/robot_description_bringup.launch">
+    <arg name="device_name" value="$(arg device_name)"/>
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="robot_package" value="$(arg robot_package)"/>
+    <arg name="source_list" value="$(arg source_list)"/>
+    <arg name="use_rviz" value="$(arg use_rviz)"/>
+  </include>
+</launch>

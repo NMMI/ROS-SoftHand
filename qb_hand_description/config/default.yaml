@@ -22,7 +22,6 @@ default:
     virtual_mechanism: &virtual_mechanism
       position: "0.013 0 0"
       orientation: "0 0 0"
-    mesh_prefix: &no_mesh_prefix ""
     single_synergy: &single_synergy
       axis: "0 0 1"  # it is not important though
       dynamics: *dynamics
@@ -34,7 +33,8 @@ default:
 
   finger:
     knuckle: &knuckle
-      mesh_prefix: *no_mesh_prefix
+      mesh: ""
+      mesh_collision: ""
       # 'position' and 'orientation' should be specified each time
       position: "0 0 0"
       orientation: "0 0 0"
@@ -58,7 +58,8 @@ default:
           izz: 0.006
 
     proximal: &proximal
-      mesh_prefix: *no_mesh_prefix
+      mesh: ""
+      mesh_collision: ""
       position: "0.009 0 0"
       orientation: "0 0 0"
       axis: *axis_flexion
@@ -83,9 +84,13 @@ default:
 
     middle: &middle
       << : *proximal
+      mesh: ""
+      mesh_collision: ""
 
     distal: &distal
       << : *proximal
+      mesh: ""
+      mesh_collision: ""
       inertial:
         mass: 0.1
         origin: "0.010 0.0 0.001"
@@ -98,9 +103,10 @@ default:
           izz: 0.008
 
 
-qb_hand_right:
+qbhand_right:
   base:
-    mesh_prefix: "right_"
+    mesh: ""
+    mesh_collision: ""
     #FIXME actually position and orientation of base link is not selected by xacro
     position: "0 0 0.004"
     orientation: "0 0 0"
@@ -116,7 +122,8 @@ qb_hand_right:
         izz: 1
 
   palm:
-    mesh_prefix: "right_"
+    mesh: ""
+    mesh_collision: ""
     position: "0.002 0.007 0.054"
     orientation: "0 0 0"
     inertial:
@@ -136,7 +143,6 @@ qb_hand_right:
   thumb:
     knuckle:
       << : *knuckle
-      mesh_prefix: "right_thumb_"
       position: "0.006 0.030 0.055"
       orientation: "0.0 -0.384 1.571"
       axis: "0 0 -1"

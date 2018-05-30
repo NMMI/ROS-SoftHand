@@ -1,26 +1,20 @@
 # Waypoints describe the desired motion trajectory:
 #  - time [s]: can be either a single value or an interval for which joint_positions hold
 #  - joint_positions:
-#     - hand closure [0,1].
+#     - hand closure [0,1];
+#  - joint_velocities: optional, use it only if you want a nonzero value
+#     - hand closure [0,1]/s;
+#  - joint_accelerations: optional, use it only if you want a nonzero value
+#     - hand closure [0,1]/s^2;
+#
+# It is worth noting that, if specified, joint_positions, joint_velocities and joint_accelerations must be of size one.
 
 waypoints:
   -
-    time: [1.0]
+    time: [2.0]
     joint_positions:
       qbhand: [0.0]
   -
-    time: [2.25, 2.75]
+    time: [4.0, 4.2]
     joint_positions:
-      qbhand: [0.7]
-  -
-    time: [4.0, 5.0]
-    joint_positions:
-      qbhand: [0.0]
-  -
-    time: [10.75, 11.25]
-    joint_positions:
-      qbhand: [0.7]
-  -
-    time: [17.0, 18.0]
-    joint_positions:
-      qbhand: [0.0]
+      qbhand: [0.8]

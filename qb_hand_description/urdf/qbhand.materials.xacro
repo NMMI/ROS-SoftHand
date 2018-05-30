@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<material name="qbhand/optional">
+		<color rgba="0.0 0.5 0.8 1.0"/>
+	</material>
+
+	<material name="qbhand/base">
+		<color rgba="0.35 0.35 0.35 1.0"/>
+	</material>
+
+	<material name="qbhand/palm">
+		<color rgba="0.35 0.35 0.35 1.0"/>
+	</material>
+
+	<material name="qbhand/knuckle">
+		<color rgba="0.35 0.35 0.35 1.0"/>
+	</material>
+
+	<material name="qbhand/proximal">
+		<color rgba="0.35 0.35 0.35 1.0"/>
+	</material>
+
+	<material name="qbhand/middle">
+		<color rgba="0.35 0.35 0.35 1.0"/>
+	</material>
+
+	<material name="qbhand/distal">
+		<color rgba="0.35 0.35 0.35 1.0"/>
+	</material>
+
+	<material name="qbhand/default">
+		<color rgba="0.35 0.35 0.35 1.0"/>
+	</material>
+
+</robot>

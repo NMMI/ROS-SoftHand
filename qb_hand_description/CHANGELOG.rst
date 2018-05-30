@@ -2,6 +2,13 @@
 Changelog for package qb_hand_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.0.0 (2018-05-30)
+------------------
+* Update README
+* Update xacro models
+* Refactor launch files
+* Refactor launch files
+
 1.0.6 (2017-11-24)
 ------------------
 
