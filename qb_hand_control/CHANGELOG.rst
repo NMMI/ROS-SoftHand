@@ -2,6 +2,10 @@
 Changelog for package qb_hand_control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.1.0 (2018-08-07)
+------------------
+* Set safer default values
+
 2.0.0 (2018-05-30)
 ------------------
 * Update README

@@ -12,8 +12,8 @@
 
 default:
   parameters:
-    axis_abduction: &axis_abduction "0 0 1"
-    axis_flexion: &axis_flexion "0 -1 0"
+    axis_abduction: &axis_abduction "0 0 -1"
+    axis_flexion: &axis_flexion "0 0 -1"
     dynamics: &dynamics
       damping: 0.0
       friction: 0.0
@@ -30,11 +30,21 @@ default:
         upper: 1.0
         effort: *effort
         velocity: *velocity
+    inertial: &phalanx_inertial
+      mass: 0.01
+      origin: "0 0 0"
+      inertia:
+        ixx: 0.000001
+        ixy: 0.0
+        ixz: 0.0
+        iyy: 0.000001
+        iyz: 0.0
+        izz: 0.000001
 
   finger:
     knuckle: &knuckle
-      mesh: ""
-      mesh_collision: ""
+      mesh: "ph_knuckle"
+      mesh_collision: "ph_knuckle"
       # 'position' and 'orientation' should be specified each time
       position: "0 0 0"
       orientation: "0 0 0"
@@ -46,20 +56,32 @@ default:
         upper: 0.524
         effort: *effort
         velocity: *velocity
-      inertial:
-        mass: 0.09
-        origin: "0.001 0.0 0.0"
-        inertia:
-          ixx: 0.004
-          ixy: 0.0
-          ixz: 0.0
-          iyy: 0.008
-          iyz: 0.0
-          izz: 0.006
+      inertial: *phalanx_inertial
 
-    proximal: &proximal
-      mesh: ""
-      mesh_collision: ""
+    medium: &medium
+      mesh: "ph_medium"
+      mesh_collision: "ph_medium"
+      position: "0.017 0 0"
+      orientation: "0 0 0"
+      axis: *axis_flexion
+      mimic_reduction: 0.785
+      virtual_mechanism: *virtual_mechanism
+      dynamics: *dynamics
+      limits:
+        lower: 0.0
+        upper: 0.785
+        effort: *effort
+        velocity: *velocity
+      inertial: *phalanx_inertial
+
+    medium_after_knuckle: &medium_after_knuckle
+      << : *medium
+      position: "0 0.009 0"
+      orientation: "1.57 0 1.57"
+
+    small: &small
+      mesh: "ph_small"
+      mesh_collision: "ph_small"
       position: "0.009 0 0"
       orientation: "0 0 0"
       axis: *axis_flexion
@@ -71,71 +93,65 @@ default:
         upper: 0.785
         effort: *effort
         velocity: *velocity
-      inertial:
-        mass: 0.05
-        origin: "0.005 0.0 0.0"
-        inertia:
-          ixx: 0.002
-          ixy: 0.0
-          ixz: 0.0
-          iyy: 0.003
-          iyz: 0.0
-          izz: 0.003
+      inertial: *phalanx_inertial
 
-    middle: &middle
-      << : *proximal
-      mesh: ""
-      mesh_collision: ""
+    small_after_knuckle: &small_after_knuckle
+      << : *small
+      position: "0 0.009 0"
+      orientation: "1.57 0 1.57"
+
+    small_after_medium: &small_after_medium
+      << : *small
+      position: "0.017 0 0"
+      orientation: "0 0 0"
 
     distal: &distal
-      << : *proximal
-      mesh: ""
-      mesh_collision: ""
-      inertial:
-        mass: 0.1
-        origin: "0.010 0.0 0.001"
-        inertia:
-          ixx: 0.004
-          ixy: 0.0
-          ixz: 0.0
-          iyy: 0.008
-          iyz: 0.0
-          izz: 0.008
+      mesh: "ph_distal"
+      mesh_collision: "ph_distal"
+      position: "0.009 0 0"
+      orientation: "0 0 0"
+      axis: *axis_flexion
+      mimic_reduction: 0.785
+      virtual_mechanism: *virtual_mechanism
+      dynamics: *dynamics
+      limits:
+        lower: 0.0
+        upper: 0.785
+        effort: *effort
+        velocity: *velocity
+      inertial: *phalanx_inertial
 
 
 qbhand_right:
   base:
-    mesh: ""
-    mesh_collision: ""
-    #FIXME actually position and orientation of base link is not selected by xacro
-    position: "0 0 0.004"
-    orientation: "0 0 0"
+    mesh: "flange_iso_04"
+    mesh_collision: "flange_iso_04"
     inertial:
-      mass: 0.1  #FIXME
-      origin: "0 0 0"  #FIXME
-      inertia:  #FIXME
-        ixx: 1
+      mass: 0.150
+      origin: "0 0 0.0015"
+      inertia:
+        ixx: 0.00006
         ixy: 0
         ixz: 0
-        iyy: 1
+        iyy: 0.00006
         iyz: 0
-        izz: 1
+        izz: 0.00009
 
   palm:
-    mesh: ""
-    mesh_collision: ""
-    position: "0.002 0.007 0.054"
-    orientation: "0 0 0"
+    mesh: "palm_pinch_r"
+    mesh_collision: "palm_pinch_r"
+    position: "-0.0045 0.0145 0.144"
+    orientation: "1.57 0 0"
     inertial:
-      mass: 0.228
-      origin: "-0.05 -0.007 0.028"
+      mass: 0.360
+      origin: "0.0 0.02 0.05"
       inertia:
-        ixx: 1.630
-        ixy: 0.023
-        ixz: 0.023
-        iyy: 0.946
-        iyz: 0.046
-        izz: 1.106
+        ixx: 0.00045
+        ixy: 0.0
+        ixz: 0.0
+        iyy: 0.00060
+        iyz: 0.0
+        izz: 0.00025
 
   synergy: *single_synergy
 
@@ -143,58 +159,152 @@ qbhand_right:
   thumb:
     knuckle:
       << : *knuckle
-      position: "0.006 0.030 0.055"
-      orientation: "0.0 -0.384 1.571"
-      axis: "0 0 -1"
-      mimic_reduction: 2.042
+      mesh: "ph_thumb_r"
+      mesh_collision: "ph_thumb_r"
+      position: "-0.0435 -0.0435 -0.002"
+      orientation: "-1.57 3.14 0"
+      mimic_reduction: 2.542
       limits:
         lower: 0.0
         upper: 1.571
         effort: *effort
         velocity: *velocity
     proximal:
-      << : *proximal
-      position: "0.023 -0.003 0.0"
-      orientation: "0.427 0.0 0.0"
-      mimic_reduction: 1.021
+      << : *small
+      position: "0.0255 -0.004 -0.0025"
+      orientation: "-1.15 0.0 0.0"
     distal: *distal
 
   index:
     knuckle:
       << : *knuckle
-      position: "-0.003 0.020 0.094"
-      orientation: "1.571 -1.484 1.571"
+      position: "-0.02 -0.007 0.014"
+      orientation: "0 0 0"
       mimic_reduction: -0.2
-    proximal: *proximal
-    middle: *middle
+    proximal: *medium_after_knuckle
+    middle: *small_after_medium
     distal: *distal
 
   middle:
     knuckle:
       << : *knuckle
-      position: "-0.003 0.0 0.101"
-      orientation: "3.142 -1.571 0.0"
+      position: "0 0 0.014"
+      orientation: "0 0 0"
       mimic_reduction: 0.0
-    proximal: *proximal
-    middle: *middle
+    proximal: *medium_after_knuckle
+    middle: *small_after_medium
     distal: *distal
 
   ring:
     knuckle:
       << : *knuckle
-      position: "-0.003 -0.020 0.094"
-      orientation: "-1.571 -1.518 -1.571"
+      position: "0.02 -0.007 0.014"
+      orientation: "0 0 0"
       mimic_reduction: 0.2
-    proximal: *proximal
-    middle: *middle
+    proximal: *medium_after_knuckle
+    middle: *small_after_medium
     distal: *distal
 
   little:
     knuckle:
       << : *knuckle
-      position: "-0.003 -0.039 0.084"
-      orientation: "-1.571 -1.484 -1.571"
+      position: "0.04 -0.012 0.014"
+      orientation: "0 0 0"
       mimic_reduction: 0.4
-    proximal: *proximal
-    middle: *middle
+    proximal: *small_after_knuckle
+    middle: *small
+    distal: *distal
+
+
+qbhand_left:
+  base:
+    mesh: "flange_iso_04"
+    mesh_collision: "flange_iso_04"
+    inertial:
+      mass: 0.150
+      origin: "0 0 0.0015"
+      inertia:
+        ixx: 0.00006
+        ixy: 0
+        ixz: 0
+        iyy: 0.00006
+        iyz: 0
+        izz: 0.00009
+
+  palm:
+    mesh: "palm_pinch_l"
+    mesh_collision: "palm_pinch_l"
+    position: "0.0045 0.0145 0.144"
+    orientation: "1.57 0 3.14"
+    inertial:
+      mass: 0.360
+      origin: "0.0 0.02 0.05"
+      inertia:
+        ixx: 0.00045
+        ixy: 0.0
+        ixz: 0.0
+        iyy: 0.00060
+        iyz: 0.0
+        izz: 0.00025
+
+  synergy: *single_synergy
+
+  # all fingers have the same base structure and only few things change among them (e.g. the pose of the knuckle)
+  thumb:
+    knuckle:
+      << : *knuckle
+      mesh: "ph_thumb_l"
+      mesh_collision: "ph_thumb_l"
+      position: "-0.0435 -0.0435 -0.002"
+      orientation: "1.57 3.14 0"
+      mimic_reduction: 2.542
+      limits:
+        lower: 0.0
+        upper: 1.571
+        effort: *effort
+        velocity: *velocity
+    proximal:
+      << : *small
+      position: "0.0255 -0.004 0.0025"
+      orientation: "1.15 0.0 0.0"
+    distal: *distal
+
+  index:
+    knuckle:
+      << : *knuckle
+      position: "-0.02 -0.007 -0.014"
+      orientation: "0 3.14 0"
+      mimic_reduction: 0.2
+    proximal: *medium_after_knuckle
+    middle: *small_after_medium
+    distal: *distal
+
+  middle:
+    knuckle:
+      << : *knuckle
+      position: "0 0 -0.014"
+      orientation: "0 3.14 0"
+      mimic_reduction: 0.0
+    proximal: *medium_after_knuckle
+    middle: *small_after_medium
+    distal: *distal
+
+  ring:
+    knuckle:
+      << : *knuckle
+      position: "0.02 -0.007 -0.014"
+      orientation: "0 3.14 0"
+      mimic_reduction: -0.2
+    proximal: *medium_after_knuckle
+    middle: *small_after_medium
+    distal: *distal
+
+  little:
+    knuckle:
+      << : *knuckle
+      position: "0.04 -0.012 -0.014"
+      orientation: "0 3.14 0"
+      mimic_reduction: -0.4
+    proximal: *small_after_knuckle
+    middle: *small
     distal: *distal

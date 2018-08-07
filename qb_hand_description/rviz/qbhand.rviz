@@ -6,7 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /TF1/Frames1
-      Splitter Ratio: 0.708933711
+      Splitter Ratio: 0.655555546
     Tree Height: 519
   - Class: rviz/Selection
     Name: Selection
@@ -63,6 +63,7 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
         qbhand1_index_distal_link:
           Alpha: 1
           Show Axes: false
@@ -243,73 +244,73 @@ Visualization Manager:
         qbhand1_index_distal_link:
           Value: true
         qbhand1_index_distal_virtual_link:
-          Value: true
+          Value: false
         qbhand1_index_knuckle_link:
           Value: true
         qbhand1_index_middle_link:
           Value: true
         qbhand1_index_middle_virtual_link:
-          Value: true
+          Value: false
         qbhand1_index_proximal_link:
           Value: true
         qbhand1_index_proximal_virtual_link:
-          Value: true
+          Value: false
         qbhand1_little_distal_link:
           Value: true
         qbhand1_little_distal_virtual_link:
-          Value: true
+          Value: false
         qbhand1_little_knuckle_link:
           Value: true
         qbhand1_little_middle_link:
           Value: true
         qbhand1_little_middle_virtual_link:
-          Value: true
+          Value: false
         qbhand1_little_proximal_link:
           Value: true
         qbhand1_little_proximal_virtual_link:
-          Value: true
+          Value: false
         qbhand1_middle_distal_link:
           Value: true
         qbhand1_middle_distal_virtual_link:
-          Value: true
+          Value: false
         qbhand1_middle_knuckle_link:
           Value: true
         qbhand1_middle_middle_link:
           Value: true
         qbhand1_middle_middle_virtual_link:
-          Value: true
+          Value: false
         qbhand1_middle_proximal_link:
           Value: true
         qbhand1_middle_proximal_virtual_link:
-          Value: true
+          Value: false
         qbhand1_palm_link:
           Value: false
         qbhand1_ring_distal_link:
           Value: true
         qbhand1_ring_distal_virtual_link:
-          Value: true
+          Value: false
         qbhand1_ring_knuckle_link:
           Value: true
         qbhand1_ring_middle_link:
           Value: true
         qbhand1_ring_middle_virtual_link:
-          Value: true
+          Value: false
         qbhand1_ring_proximal_link:
           Value: true
         qbhand1_ring_proximal_virtual_link:
-          Value: true
+          Value: false
         qbhand1_tendon_virtual_link:
           Value: false
         qbhand1_thumb_distal_link:
           Value: true
         qbhand1_thumb_distal_virtual_link:
-          Value: true
+          Value: false
         qbhand1_thumb_knuckle_link:
           Value: true
         qbhand1_thumb_proximal_link:
           Value: true
         qbhand1_thumb_proximal_virtual_link:
-          Value: true
+          Value: false
         root_link:
           Value: false
       Marker Scale: 0.150000006
@@ -388,25 +389,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.439871907
+      Distance: 0.433537751
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.0833899155
-        Y: -0.033368919
-        Z: 0.0911424085
+        X: -0.0470295474
+        Y: -0.066473566
+        Z: 0.103709564
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.475398481
+      Pitch: 0.215398461
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.46539849
+      Yaw: 1.07539225
     Saved:
       - Class: rviz/Orbit
         Distance: 0.682552576
@@ -444,5 +445,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1000
-  X: 846
-  Y: 83
+  X: 2578
+  Y: 88

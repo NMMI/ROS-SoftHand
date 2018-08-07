@@ -13,17 +13,17 @@
   <!-- read/write settings -->
   <arg name="get_currents" default="true" doc="Choose whether or not to retrieve current measurements from the device."/>
   <arg name="get_positions" default="true" doc="Choose whether or not to retrieve position measurements from the device."/>
-  <arg name="get_distinct_packages" default="false" doc="Choose whether or not to retrieve current and position measurements from the device in two distinct packages."/>
+  <arg name="get_distinct_packages" default="true" doc="Choose whether or not to retrieve current and position measurements from the device in two distinct packages."/>
   <arg name="max_repeats" default="3" doc="The maximum number of consecutive repetitions to mark retrieved data as corrupted."/>
   <arg name="set_commands" default="true" doc="Choose whether or not to send command positions to the device."/>
-  <arg name="set_commands_async" default="false" doc="Choose whether or not to send commands without waiting for ack."/>
+  <arg name="set_commands_async" default="true" doc="Choose whether or not to send commands without waiting for ack."/>
   <!-- initialization settings -->
   <arg name="activate_on_initialization" default="false" doc="Choose whether or not to activate the motors on node startup."/>
   <arg name="rescan_on_initialization" default="false" doc="Choose whether or not to rescan the serial ports on node startup."/>
   <!-- launch settings -->
   <arg name="standalone" default="false" doc="Choose whether or not to start the Communication Handler."/>
   <arg name="use_controller_gui" default="false" doc="Choose whether or not to use the controller GUI."/>
-  <arg name="use_rviz" default="true" doc="Choose whether or not to use rviz."/>
+  <arg name="use_rviz" default="false" doc="Choose whether or not to use rviz."/>
   <arg name="use_waypoints" default="false" doc="Choose whether or not to use the waypoint references."/>
 
 

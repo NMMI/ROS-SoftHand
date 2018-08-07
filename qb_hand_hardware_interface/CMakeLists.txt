@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
-project(qb_hand_hardware_interface VERSION 2.0.0 LANGUAGES CXX)
+project(qb_hand_hardware_interface VERSION 2.1.0 LANGUAGES CXX)
 
 # Dependency Settings
 find_package(catkin REQUIRED

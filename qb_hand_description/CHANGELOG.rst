@@ -2,6 +2,11 @@
 Changelog for package qb_hand_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.1.0 (2018-08-07)
+------------------
+* Add left hand configuration
+* Add meshes and update right hand configuration
+
 2.0.0 (2018-05-30)
 ------------------
 * Update README
