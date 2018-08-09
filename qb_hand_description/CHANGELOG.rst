@@ -2,6 +2,9 @@
 Changelog for package qb_hand_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.1.1 (2018-08-09)
+------------------
+
 2.1.0 (2018-08-07)
 ------------------
 * Add left hand configuration

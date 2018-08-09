@@ -2,6 +2,10 @@
 Changelog for package qb_hand_hardware_interface
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.1.1 (2018-08-09)
+------------------
+* Update license agreement copyright
+
 2.1.0 (2018-08-07)
 ------------------
 
