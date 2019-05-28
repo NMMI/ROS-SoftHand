@@ -54,34 +54,34 @@ class qbHandHW : public qb_device_hardware_interface::qbDeviceHW {
   /**
    * Do nothing.
    */
-  virtual ~qbHandHW();
+  ~qbHandHW() override;
 
   /**
    * \return The vector of controller joint names.
    */
-  std::vector<std::string> getJoints();
+  std::vector<std::string> getJoints() override;
 
   /**
    * Call the base method and nothing more.
    * \param root_nh A NodeHandle in the root of the caller namespace.
    * \param robot_hw_nh A NodeHandle in the namespace from which the RobotHW should read its configuration.
-   * \returns \p true on success.
+   * \return \p true on success.
    */
-  bool init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh);
+  bool init(ros::NodeHandle &root_nh, ros::NodeHandle &robot_hw_nh) override;
 
   /**
    * Call the base method and nothing more.
    * \param time The current time.
    * \param period The time passed since the last call to this method, i.e. the control period.
    */
-  void read(const ros::Time& time, const ros::Duration& period);
+  void read(const ros::Time &time, const ros::Duration &period) override;
 
   /**
    * Call the base method and nothing more.
    * \param time The current time.
    * \param period The time passed since the last call to this method, i.e. the control period.
    */
-  void write(const ros::Time& time, const ros::Duration& period);
+  void write(const ros::Time &time, const ros::Duration &period) override;
 };
 typedef std::shared_ptr<qbHandHW> qbHandHWPtr;
 }  // namespace qb_hand_hardware_interface

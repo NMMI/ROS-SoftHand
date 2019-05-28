@@ -4,7 +4,7 @@
   <arg name="device_type" value="qbhand" doc="The type of the device [qbhand, qbmove, ...]."/>
   <arg name="device_name" default="$(arg device_type)$(arg device_id)" doc="The unique device name used in the yaml controller configurations (also in the urdf if not already specified there)."/>
   <!-- robot settings -->
-  <arg name="control_duration" default="0.01" doc="The duration of the control loop [s]."/>
+  <arg name="control_duration" default="0.001" doc="The duration of the control loop [s]."/>
   <arg name="robot_hardware" default="[$(arg device_name)]" doc="The robot hardware interface names, e.g. [device1, device2, ...]."/>
   <arg name="robot_name" default="$(arg device_type)" doc="The unique robot name."/>
   <arg name="robot_namespace" default="$(arg device_name)" doc="The unique robot namespace."/>

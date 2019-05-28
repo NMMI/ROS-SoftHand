@@ -68,7 +68,7 @@ class qbHandVirtualTransmission : public transmission_interface::Transmission {
    * and must point to valid data, at least for the used fields, i.e. it is not required that all other data vectors
    * contain valid data; they can even remain empty.
    */
-  inline void actuatorToJointEffort(const transmission_interface::ActuatorData& actuator, transmission_interface::JointData& joint) {
+  inline void actuatorToJointEffort(const transmission_interface::ActuatorData &actuator, transmission_interface::JointData &joint) {
     ROS_ASSERT(numActuators() == actuator.effort.size() && numJoints() == joint.effort.size());
     ROS_ASSERT(actuator.effort[0] && joint.effort[0]);
 
@@ -83,7 +83,7 @@ class qbHandVirtualTransmission : public transmission_interface::Transmission {
    * and must point to valid data, at least for the used fields, i.e. it is not required that all other data vectors
    * contain valid data; they can even remain empty.
    */
-  inline void actuatorToJointVelocity(const transmission_interface::ActuatorData& actuator, transmission_interface::JointData& joint) {
+  inline void actuatorToJointVelocity(const transmission_interface::ActuatorData &actuator, transmission_interface::JointData &joint) {
     ROS_ASSERT(numActuators() == actuator.velocity.size() && numJoints() == joint.velocity.size());
     ROS_ASSERT(actuator.velocity[0] && joint.velocity[0]);
 
@@ -99,7 +99,7 @@ class qbHandVirtualTransmission : public transmission_interface::Transmission {
    * and must point to valid data, at least for the used fields, i.e. it is not required that all other data vectors
    * contain valid data; they can even remain empty.
    */
-  inline void actuatorToJointPosition(const transmission_interface::ActuatorData& actuator, transmission_interface::JointData& joint) {
+  inline void actuatorToJointPosition(const transmission_interface::ActuatorData &actuator, transmission_interface::JointData &joint) {
     ROS_ASSERT(numActuators() == actuator.position.size() && numJoints() == joint.position.size());
     ROS_ASSERT(actuator.position[0] && joint.position[0]);
 
@@ -129,7 +129,7 @@ class qbHandVirtualTransmission : public transmission_interface::Transmission {
    * and must point to valid data, at least for the used fields, i.e. it is not required that all other data vectors
    * contain valid data; they can even remain empty.
    */
-  inline void jointToActuatorEffort(const transmission_interface::JointData& joint, transmission_interface::ActuatorData& actuator) {
+  inline void jointToActuatorEffort(const transmission_interface::JointData &joint, transmission_interface::ActuatorData &actuator) {
     ROS_ASSERT(numActuators() == actuator.effort.size() && numJoints() == joint.effort.size());
     ROS_ASSERT(actuator.effort[0] && joint.effort[0]);
 
@@ -145,7 +145,7 @@ class qbHandVirtualTransmission : public transmission_interface::Transmission {
    * and must point to valid data, at least for the used fields, i.e. it is not required that all other data vectors
    * contain valid data; they can even remain empty.
    */
-  inline void jointToActuatorVelocity(const transmission_interface::JointData& joint, transmission_interface::ActuatorData& actuator) {
+  inline void jointToActuatorVelocity(const transmission_interface::JointData &joint, transmission_interface::ActuatorData &actuator) {
     ROS_ASSERT(numActuators() == actuator.velocity.size() && numJoints() == joint.velocity.size());
     ROS_ASSERT(actuator.velocity[0] && joint.velocity[0]);
 
@@ -161,7 +161,7 @@ class qbHandVirtualTransmission : public transmission_interface::Transmission {
    * and must point to valid data, at least for the used fields, i.e. it is not required that all other data vectors
    * contain valid data; they can even remain empty.
    */
-  inline void jointToActuatorPosition(const transmission_interface::JointData& joint, transmission_interface::ActuatorData& actuator) {
+  inline void jointToActuatorPosition(const transmission_interface::JointData &joint, transmission_interface::ActuatorData &actuator) {
     ROS_ASSERT(numActuators() == actuator.position.size() && numJoints() == joint.position.size());
     ROS_ASSERT(actuator.position[0] && joint.position[0]);
 

@@ -42,7 +42,7 @@ std::vector<std::string> qbHandHW::getJoints() {
   return joints_.names;
 }
 
-bool qbHandHW::init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh) {
+bool qbHandHW::init(ros::NodeHandle &root_nh, ros::NodeHandle &robot_hw_nh) {
   if (!qb_device_hardware_interface::qbDeviceHW::init(root_nh, robot_hw_nh)) {
     return false;
   }
@@ -52,12 +52,12 @@ bool qbHandHW::init(ros::NodeHandle& root_nh, ros::NodeHandle &robot_hw_nh) {
   return true;
 }
 
-void qbHandHW::read(const ros::Time& time, const ros::Duration& period) {
+void qbHandHW::read(const ros::Time &time, const ros::Duration &period) {
   // read actuator state from the hardware (convert to proper measurement units)
   qb_device_hardware_interface::qbDeviceHW::read(time, period);
 }
 
-void qbHandHW::write(const ros::Time& time, const ros::Duration& period) {
+void qbHandHW::write(const ros::Time &time, const ros::Duration &period) {
   // send actuator command to the hardware (saturate and convert to proper measurement units)
   qb_device_hardware_interface::qbDeviceHW::write(time, period);
 }

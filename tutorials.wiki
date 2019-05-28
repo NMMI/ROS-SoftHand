@@ -52,7 +52,7 @@ git checkout production-$ROS_DISTRO
 cd `~/catkin_ws`
 catkin_make
  }}}
- '''Note:''' depending on your ROS installation, you may need some extra packages to properly compile the code. Please, be sure that you have already installed at least `ros-$ROS_DISTRO-ros-controllers`, `ros-$ROS_DISTRO-transmission-interface`, `ros-$ROS_DISTRO-joint-limits-interface`, and their dependencies (''e.g. use `sudo apt install <ros-pkg>`'').
+ '''Note:''' depending on your ROS installation, you may need some extra packages to properly compile the code. Please, be sure that you have already installed at least `ros-$ROS_DISTRO-ros-controllers`, `ros-$ROS_DISTRO-transmission-interface`, `ros-$ROS_DISTRO-joint-limits-interface`, `ros-$ROS_DISTRO-combined-robot-hw`, and their dependencies (''e.g. use `sudo apt install <ros-pkg>`'').
 
  1. If you were not familiar with ROS you should be happy now: everything is done! Nonetheless, if you encounter some troubles during the compilation, feel free to ask for support on [[https://bitbucket.org/account/user/qbrobotics/projects/ROS|our Bitbucket]].
 

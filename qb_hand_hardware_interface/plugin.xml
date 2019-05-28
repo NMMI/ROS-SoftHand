@@ -1,7 +1,7 @@
 <library path="libqb_hand_hardware_interface">
   <class name="qb_hand_hardware_interface/qbHandHW" type="qb_hand_hardware_interface::qbHandHW" base_class_type="hardware_interface::RobotHW">
-  <description>
-    A type of RobotHW
-  </description>
+    <description>
+      A type of RobotHW
+    </description>
   </class>
 </library>
